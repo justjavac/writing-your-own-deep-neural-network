@@ -12,8 +12,8 @@ export default function App({ Component }: AppProps) {
       <body class="flex flex-col h-screen">
         <div class="flex p-4 gap-x-4 border">
           <div class="align-middle mt-1 mr-8 flex items-center">
-            <a class="cursor-default" href="/">
-              <p class="text-xl font-semibold">Playground</p>
+            <a class="text-xl font-semibold" href="/">
+              Playground
             </a>
           </div>
           <Menu title="与门" href="/and_gate" />
