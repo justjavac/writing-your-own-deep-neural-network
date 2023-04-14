@@ -1,6 +1,6 @@
 import { useState } from "preact/hooks";
 import { Graph } from "@/components/Graph.tsx";
-import { Network, type Model } from "@/dnn/mod.ts";
+import { type Model, Network } from "@/dnn/mod.ts";
 
 export interface AddProps {
   title: string;
@@ -24,7 +24,7 @@ export default function Add(props: AddProps) {
         <h2 class="mb-4 text-xl font-semibold">
           {props.title}
           <small class="ml-1 text-sm font-normal text-gray-500">超出10以后结果就不对了</small>
-          </h2>
+        </h2>
         <div class="flex gap-x-4 items-center">
           <span class="text-sm font-normal">输入1</span>
           <div class="relative inline-flex flex-grow items-center cursor-pointer">
@@ -32,9 +32,7 @@ export default function Add(props: AddProps) {
               id="default-range"
               type="range"
               value={input1}
-              onInput={(e) =>
-                setInput1(parseInt((e.target as HTMLInputElement).value))
-              }
+              onInput={(e) => setInput1(parseInt((e.target as HTMLInputElement).value))}
               min={0}
               max={9}
               class="w-full h-2 bg-gray-500 rounded-lg appearance-none cursor-pointer"
@@ -49,9 +47,7 @@ export default function Add(props: AddProps) {
               id="default-range"
               type="range"
               value={input2}
-              onInput={(e) =>
-                setInput2(parseInt((e.target as HTMLInputElement).value))
-              }
+              onInput={(e) => setInput2(parseInt((e.target as HTMLInputElement).value))}
               min={0}
               max={9}
               class="w-full h-2 bg-gray-500 rounded-lg appearance-none cursor-pointer"

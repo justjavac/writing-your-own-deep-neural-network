@@ -1,6 +1,6 @@
 import { useState } from "preact/hooks";
 import { Graph } from "@/components/Graph.tsx";
-import { Network, type Model } from "@/dnn/mod.ts";
+import { type Model, Network } from "@/dnn/mod.ts";
 import { useToggle } from "@/hooks/useToggle.ts";
 
 export interface NotGateProps {
@@ -35,11 +35,10 @@ export default function NotGate(props: NotGateProps) {
             >
               <div
                 class={`absolute top-[2px] left-[2px] bg-white border rounded-full h-5 w-5 ${
-                  input1
-                    ? "translate-x-full border-white"
-                    : "transition-all border-gray-300"
+                  input1 ? "translate-x-full border-white" : "transition-all border-gray-300"
                 }`}
-              ></div>
+              >
+              </div>
             </div>
             <span class="ml-1 text-sm font-medium text-gray-900">
               {input1 ? "真" : "假"}
@@ -53,9 +52,8 @@ export default function NotGate(props: NotGateProps) {
             class="text-blue-700 hover:text-white border border-blue-700 hover:bg-blue-800 focus:outline-none rounded px-4 py-1 text-center"
             onClick={() =>
               setOutput1(
-                Math.round(network.predict([input1])[0]) ? "真" : "假"
-              )
-            }
+                Math.round(network.predict([input1])[0]) ? "真" : "假",
+              )}
           >
             计算
           </button>

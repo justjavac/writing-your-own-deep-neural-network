@@ -1,6 +1,6 @@
 import { useState } from "preact/hooks";
 import { Graph } from "@/components/Graph.tsx";
-import { Network, type Model } from "@/dnn/mod.ts";
+import { type Model, Network } from "@/dnn/mod.ts";
 import { useToggle } from "@/hooks/useToggle.ts";
 
 export interface AndGateProps {
@@ -36,11 +36,10 @@ export default function AndGate(props: AndGateProps) {
             >
               <div
                 class={`absolute top-[2px] left-[2px] bg-white border rounded-full h-5 w-5 ${
-                  input1
-                    ? "translate-x-full border-white"
-                    : "transition-all border-gray-300"
+                  input1 ? "translate-x-full border-white" : "transition-all border-gray-300"
                 }`}
-              ></div>
+              >
+              </div>
             </div>
             <span class="ml-1 text-sm font-medium text-gray-900">
               {input1 ? "真" : "假"}
@@ -60,11 +59,10 @@ export default function AndGate(props: AndGateProps) {
             >
               <div
                 class={`absolute top-[2px] left-[2px] bg-white border rounded-full h-5 w-5 ${
-                  input2
-                    ? "translate-x-full border-white"
-                    : "transition-all border-gray-300"
+                  input2 ? "translate-x-full border-white" : "transition-all border-gray-300"
                 }`}
-              ></div>
+              >
+              </div>
             </div>
             <span class="ml-1 text-sm font-medium text-gray-900">
               {input2 ? "真" : "假"}
