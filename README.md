@@ -1,6 +1,6 @@
 # writing-your-own-deep-neural-network
 
-一步步开发自己的深度学习的神经网络 Deep Neural Network。
+一步步开发自己的深度学习的神经网络 Deep Neural Network。**[./dnn](./dnn/)目录源码有详细的注释**。
 
 [Playground](https://dnn-playground.deno.dev)
 

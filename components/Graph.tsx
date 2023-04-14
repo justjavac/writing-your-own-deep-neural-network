@@ -1,11 +1,6 @@
 import { useEffect, useRef, useState } from "preact/hooks";
 // @deno-types="https://esm.sh/echarts@5.4.2"
-import {
-  ComposeOption,
-  GraphSeriesOption,
-  init,
-  TooltipComponentOption,
-} from "echarts";
+import { ComposeOption, GraphSeriesOption, init, TooltipComponentOption } from "echarts";
 import type { Model } from "@/dnn/model.ts";
 
 type ECOption = ComposeOption<GraphSeriesOption | TooltipComponentOption>;
