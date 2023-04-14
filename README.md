@@ -2,6 +2,8 @@
 
 一步步开发自己的深度学习的神经网络 Deep Neural Network。
 
+[Playground](https://dnn-playground.deno.dev)
+
 ## 项目结构
 
 ```
