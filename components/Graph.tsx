@@ -55,8 +55,8 @@ export function Graph({ model }: GraphProps) {
             formatter: (params) => {
               if (params.dataType === "node") {
                 if (!Array.isArray(params.value)) throw new Error("Not Reachable");
-                if (isNaN(params.value[0] as number)) return `output = ${params.value[1]}`;
-                return `bias = ${params.value[0]}<br/>output = ${params.value[1]}`;
+                if (isNaN(params.value[0] as number)) return `output = <strong>${params.value[1]}</strong>`;
+                return `bias = ${params.value[0]}<br/>output = <strong>${params.value[1]}</strong>`;
               }
               if (params.dataType === "edge") {
                 return `weight = ${params.value}`;
@@ -68,7 +68,20 @@ export function Graph({ model }: GraphProps) {
             show: true,
             formatter: (params) => {
               if (!Array.isArray(params.value)) throw new Error("Not Reachable");
-              return params.value.filter((x) => !isNaN(x as number)).map((x) => `${x}`.substring(0, 5)).join("\n");
+              const bias = `${params.value[0]}`.substring(0, 5);
+              const output = `${params.value[1]}`.substring(0, 5);
+              if (isNaN(params.value[0] as number)) return `{output|${output}}`;
+              return `{bias|${bias}}\n{output|${output}}`;
+            },
+            rich: {
+              bias: {
+                fontSize: 10,
+              },
+              output: {
+                fontWeight: "bold",
+                fontSize: 14,
+                align: "center",
+              },
             },
           },
           edgeSymbol: ["circle", "arrow"],
