@@ -29,7 +29,7 @@ export const handler = (_req: Request, ctx: HandlerContext): Response => {
     layer.forEach((neuron, j) => {
       nodes.push({
         name: `${i}-${j}`,
-        x: (500 / model.length) * i,
+        x: (800 / model.length) * i,
         y: (500 / (layer.length + 1)) * (j + 1),
         value: neuron[0],
       });
@@ -50,15 +50,10 @@ export const handler = (_req: Request, ctx: HandlerContext): Response => {
   });
 
   const option: ECOption = {
-    animationEasingUpdate: "quinticInOut",
-    tooltip: {
-      formatter: "{c}",
-    },
     series: [
       {
         type: "graph",
         symbolSize: 50,
-        draggable: true,
         label: {
           show: true,
           formatter: (params) => `${params.value}`.substring(0, 5),
