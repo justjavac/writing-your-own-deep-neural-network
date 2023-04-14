@@ -3,32 +3,20 @@ import AndGate from "@/islands/AndGate.tsx";
 import NotGate from "@/islands/NotGate.tsx";
 import Add from "@/islands/Add.tsx";
 import type { Model } from "@/dnn/model.ts";
+import and from "@/models/and_gate.json" assert { type: "json" };
+import or from "@/models/or_gate.json" assert { type: "json" };
+import not from "@/models/not_gate.json" assert { type: "json" };
+import add from "@/models/add.json" assert { type: "json" };
 
-export const handler: Handlers<Model | null> = {
-  async GET(req, ctx) {
-    const modle = await import(`@/models/${ctx.params.name}.json`, {
-      assert: { type: "json" },
-    });
-    if (!modle) {
-      return new Response("Modle not found", { status: 404 });
-    }
-    return ctx.render(modle.default as Model);
-  },
-};
-
-export default function Home({ data: model, params }: PageProps<Model | null>) {
-  if (model == null) {
-    return "404";
-  }
-
+export default function Home({ params }: PageProps<Model | null>) {
   if (params.name === "and_gate") {
-    return <AndGate model={model} title="与门" />;
+    return <AndGate model={and as Model} title="与门" />;
   } else if (params.name === "or_gate") {
-    return <AndGate model={model} title="或门" />;
+    return <AndGate model={or as Model} title="或门" />;
   } else if (params.name === "not_gate") {
-    return <NotGate model={model} title="非门" />;
+    return <NotGate model={not as Model} title="非门" />;
   } else if (params.name === "add") {
-    return <Add model={model} title="十以内加法" />;
+    return <Add model={add as Model} title="十以内加法" />;
   }
 
   return "404";
