@@ -25,7 +25,7 @@ export function Graph({ model }: GraphProps) {
           name: `${i}-${j}`,
           x: (500 / model.length) * i,
           y: (500 / (layer.length + 1)) * (j + 1),
-          value: neuron[0],
+          value: [i === 0 ? NaN : neuron[0], 0],
         });
       });
     });
@@ -54,7 +54,9 @@ export function Graph({ model }: GraphProps) {
           tooltip: {
             formatter: (params) => {
               if (params.dataType === "node") {
-                return `bias = ${params.value}`;
+                if (!Array.isArray(params.value)) throw new Error("Not Reachable");
+                if (isNaN(params.value[0] as number)) return `output = ${params.value[1]}`;
+                return `bias = ${params.value[0]}<br/>output = ${params.value[1]}`;
               }
               if (params.dataType === "edge") {
                 return `weight = ${params.value}`;
@@ -64,7 +66,10 @@ export function Graph({ model }: GraphProps) {
           },
           label: {
             show: true,
-            formatter: (params) => `${params.value}`.substring(0, 5),
+            formatter: (params) => {
+              if (!Array.isArray(params.value)) throw new Error("Not Reachable");
+              return params.value.filter((x) => !isNaN(x as number)).map((x) => `${x}`.substring(0, 5)).join("\n");
+            },
           },
           edgeSymbol: ["circle", "arrow"],
           edgeSymbolSize: [4, 10],
@@ -72,7 +77,7 @@ export function Graph({ model }: GraphProps) {
             show: true,
             position: "insideStart",
             padding: [0, 50],
-            formatter: (params) => `${params.value}`.substring(0, 5),
+            formatter: (params) => `${params.value}`.substring(0, 4),
           },
           nodes,
           links,
