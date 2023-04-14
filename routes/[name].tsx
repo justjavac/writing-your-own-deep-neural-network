@@ -1,4 +1,4 @@
-import { Handlers, PageProps } from "$fresh/server.ts";
+import { PageProps } from "$fresh/server.ts";
 import AndGate from "@/islands/AndGate.tsx";
 import NotGate from "@/islands/NotGate.tsx";
 import Add from "@/islands/Add.tsx";
