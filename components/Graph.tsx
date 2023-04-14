@@ -1,6 +1,11 @@
 import { useEffect, useRef, useState } from "preact/hooks";
 // @deno-types="https://esm.sh/echarts@5.4.2"
-import { ComposeOption, GraphSeriesOption, init, TooltipComponentOption } from "echarts";
+import {
+  ComposeOption,
+  GraphSeriesOption,
+  init,
+  TooltipComponentOption,
+} from "echarts";
 import type { Model } from "@/dnn/model.ts";
 
 type ECOption = ComposeOption<GraphSeriesOption | TooltipComponentOption>;
@@ -45,14 +50,23 @@ export function Graph({ model }: GraphProps) {
 
     const option: ECOption = {
       animationEasingUpdate: "quinticInOut",
-      tooltip: {
-        formatter: "{c}",
-      },
+      tooltip: {},
       series: [
         {
           type: "graph",
           symbolSize: 50,
           draggable: true,
+          tooltip: {
+            formatter: (params) => {
+              if (params.dataType === "node") {
+                return `bias = ${params.value}`;
+              }
+              if (params.dataType === "edge") {
+                return `weight = ${params.value}`;
+              }
+              return "";
+            },
+          },
           label: {
             show: true,
             formatter: (params) => `${params.value}`.substring(0, 5),
