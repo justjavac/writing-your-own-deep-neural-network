@@ -6,7 +6,7 @@ import type { Model } from "@/dnn/model.ts";
 type ECOption = ComposeOption<GraphSeriesOption | TooltipComponentOption>;
 
 export interface GraphProps {
-  title: string;
+  title?: string;
   model?: Model;
   loading?: boolean;
 }
@@ -62,19 +62,15 @@ export function Graph({ model, title, loading }: GraphProps) {
           tooltip: {
             formatter: (params) => {
               if (params.dataType === "node") {
-                if (!Array.isArray(params.value)) {
-                  throw new Error("Not Reachable");
-                }
+                if (!Array.isArray(params.value)) throw new Error("Not Reachable");
+                if (Number.isNaN(params.value[0] as number)) return "";
 
-                const bias = (params.value[0] as number).toFixed(10);
-                const output = (params.value[1] as number).toFixed(10);
-                if (bias === "NaN") {
-                  return `output = <strong>${output}</strong>`;
-                }
+                const bias = toFixed(params.value[0] as number, 10);
+                const output = toFixed(params.value[1] as number, 10);
                 return `偏置: ${bias}<br/>输出: <strong>${output}</strong>`;
               }
               if (params.dataType === "edge") {
-                return `权重: ${(params.value as number).toFixed(10)}`;
+                return `权重: ${toFixed(params.value as number, 10)}`;
               }
               return "";
             },
@@ -82,14 +78,10 @@ export function Graph({ model, title, loading }: GraphProps) {
           label: {
             show: true,
             formatter: (params) => {
-              if (!Array.isArray(params.value)) {
-                throw new Error("Not Reachable");
-              }
-              const bias = params.value[0] === 0 ? 0 : (params.value[0] as number).toFixed(4);
-              const output = params.value[1] === 0 ? 0 : (params.value[1] as number).toFixed(4);
-              if (isNaN(params.value[0] as number)) {
-                return `{bias|}\n{output|${output}}`;
-              }
+              if (!Array.isArray(params.value)) throw new Error("Not Reachable");
+              const bias = toFixed(params.value[0] as number, 4);
+              const output = toFixed(params.value[1] as number, 4);
+              if (Number.isNaN(params.value[0] as number)) return `{bias|}\n{output|${output}}`;
               return `{bias|${bias}}\n{output|${output}}`;
             },
             offset: [0, -5],
@@ -115,7 +107,8 @@ export function Graph({ model, title, loading }: GraphProps) {
             position: "insideStart",
             padding: [0, 50],
             offset: [0, -10],
-            formatter: (params) => (params.value as number).toFixed(4),
+            formatter: (params) =>
+              typeof params.value === "number" ? toFixed(params.value, 4) : params.value.toString(),
           },
           nodes,
           links,
@@ -141,4 +134,9 @@ export function Graph({ model, title, loading }: GraphProps) {
   }, [loading]);
 
   return <div ref={el} class="flex flex-col flex-grow w-full h-full"></div>;
+}
+
+function toFixed(x: unknown, len?: number) {
+  if (typeof x === "number") return parseFloat(x.toFixed(len)).toString();
+  return String(x);
 }

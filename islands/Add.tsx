@@ -10,16 +10,7 @@ export interface AddProps {
 }
 
 export default function Add({ title, layers, modelName }: AddProps) {
-  const {
-    model,
-    network,
-    loadModel,
-    resetModel,
-    setModel,
-    loading,
-    error,
-    loaded,
-  } = useModel(modelName, layers);
+  const { model, network, loadModel, setModel, loading, loaded } = useModel(modelName, layers);
   const [input1, setInput1] = useState(0);
   const [input2, setInput2] = useState(0);
   const [output, setOutput] = useState<number>();
@@ -72,7 +63,6 @@ export default function Add({ title, layers, modelName }: AddProps) {
             <span class="ml-1 text-sm font-medium text-gray-900">{input2}</span>
           </div>
         </div>
-
         <h2 class="mt-4 text-xl font-semibold">第四步：计算</h2>
         <div class="flex gap-x-4 items-center my-1">
           <Button
@@ -97,7 +87,6 @@ export default function Add({ title, layers, modelName }: AddProps) {
             计算
           </Button>
         </div>
-
         <div class="flex gap-x-4 items-center">
           <span class="text-sm font-normal">结果</span>
           <div class="border rounded border-gray-300 flex-grow h-8 p-1 text-gray-500">

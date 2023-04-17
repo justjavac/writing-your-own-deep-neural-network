@@ -1,7 +1,7 @@
 import { useState } from "preact/hooks";
 import { Graph } from "@/components/Graph.tsx";
 import { useToggle } from "@/hooks/useToggle.ts";
-import { useModel } from "../hooks/useModel.ts";
+import { useModel } from "@/hooks/useModel.ts";
 import { Button } from "@/components/Button.tsx";
 
 export interface NotGateProps {
@@ -11,17 +11,7 @@ export interface NotGateProps {
 }
 
 export default function NotGate({ title, layers, modelName }: NotGateProps) {
-  const {
-    model,
-    network,
-    loadModel,
-    resetModel,
-    setModel,
-    loading,
-    error,
-    loaded,
-  } = useModel(modelName, layers);
-
+  const { model, network, loadModel, setModel, loading, loaded } = useModel(modelName, layers);
   const [input1, toggleInput1] = useToggle(0);
   const [output1, setOutput1] = useState("");
 

@@ -1,7 +1,9 @@
 import { Network } from "@/dnn/network.ts";
 
 const layers = [
-  1, // 输入层
+  2, // 输入层
+  3, // 输出层
+  2, // 输出层
   1, // 输出层
 ];
 
@@ -9,16 +11,16 @@ const network = new Network(layers);
 
 const trainingData = [
   {
-    input: [0],
+    input: [0, 0],
     output: [1],
   },
   {
-    input: [1],
+    input: [1, 1],
     output: [0],
   },
 ];
 
-for (let i = 0; i < 10_000; i++) {
+for (let i = 0; i < 100_000; i++) {
   const index = Math.floor(Math.random() * trainingData.length);
   const { input, output } = trainingData[index];
   network.train(input, output);

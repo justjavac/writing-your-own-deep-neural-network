@@ -11,17 +11,7 @@ export interface AndGateProps {
 }
 
 export default function AndGate({ title, layers, modelName }: AndGateProps) {
-  const {
-    model,
-    network,
-    loadModel,
-    resetModel,
-    setModel,
-    loading,
-    error,
-    loaded,
-  } = useModel(modelName, layers);
-
+  const { model, network, loadModel, setModel, loading, loaded } = useModel(modelName, layers);
   const [input1, toggleInput1] = useToggle(0);
   const [input2, toggleInput2] = useToggle(0);
   const [output1, setOutput1] = useState("");
@@ -101,7 +91,6 @@ export default function AndGate({ title, layers, modelName }: AndGateProps) {
             计算
           </Button>
         </div>
-
         <div class="mt-4 flex gap-x-4 items-center">
           <span class="text-sm font-normal">结果</span>
           <div class="border rounded border-gray-300 flex-grow h-8 p-1 text-gray-500">
