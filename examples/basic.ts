@@ -1,9 +1,7 @@
 import { Network } from "@/dnn/network.ts";
 
 const layers = [
-  2, // 输入层
-  3, // 输出层
-  2, // 输出层
+  1, // 输入层
   1, // 输出层
 ];
 
@@ -11,11 +9,11 @@ const network = new Network(layers);
 
 const trainingData = [
   {
-    input: [0, 0],
+    input: [0],
     output: [1],
   },
   {
-    input: [1, 1],
+    input: [1],
     output: [0],
   },
 ];
