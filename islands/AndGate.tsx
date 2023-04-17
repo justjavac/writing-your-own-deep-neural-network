@@ -2,7 +2,7 @@ import { useState } from "preact/hooks";
 import { Graph } from "@/components/Graph.tsx";
 import { useToggle } from "@/hooks/useToggle.ts";
 import { useModel } from "@/hooks/useModel.ts";
-import { Button } from "../components/Button.tsx";
+import { Button } from "@/components/Button.tsx";
 
 export interface AndGateProps {
   title: string;
