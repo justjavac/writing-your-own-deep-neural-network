@@ -65,13 +65,16 @@ export function Graph({ model, title, loading }: GraphProps) {
                 if (!Array.isArray(params.value)) {
                   throw new Error("Not Reachable");
                 }
-                if (isNaN(params.value[0] as number)) {
-                  return `output = <strong>${params.value[1]}</strong>`;
+
+                const bias = (params.value[0] as number).toFixed(10);
+                const output = (params.value[1] as number).toFixed(10);
+                if (bias === "NaN") {
+                  return `output = <strong>${output}</strong>`;
                 }
-                return `bias = ${params.value[0]}<br/>output = <strong>${params.value[1]}</strong>`;
+                return `偏置: ${bias}<br/>输出: <strong>${output}</strong>`;
               }
               if (params.dataType === "edge") {
-                return `weight = ${params.value}`;
+                return `权重: ${(params.value as number).toFixed(10)}`;
               }
               return "";
             },
@@ -82,8 +85,8 @@ export function Graph({ model, title, loading }: GraphProps) {
               if (!Array.isArray(params.value)) {
                 throw new Error("Not Reachable");
               }
-              const bias = `${params.value[0]}`.substring(0, 5);
-              const output = `${params.value[1]}`.substring(0, 5);
+              const bias = params.value[0] === 0 ? 0 : (params.value[0] as number).toFixed(4);
+              const output = params.value[1] === 0 ? 0 : (params.value[1] as number).toFixed(4);
               if (isNaN(params.value[0] as number)) {
                 return `{bias|}\n{output|${output}}`;
               }
@@ -99,7 +102,6 @@ export function Graph({ model, title, loading }: GraphProps) {
               },
               output: {
                 fontWeight: "bold",
-                fontSize: 16,
                 align: "center",
                 height: 50,
               },
@@ -113,7 +115,7 @@ export function Graph({ model, title, loading }: GraphProps) {
             position: "insideStart",
             padding: [0, 50],
             offset: [0, -10],
-            formatter: (params) => `${params.value}`.substring(0, 4),
+            formatter: (params) => (params.value as number).toFixed(4),
           },
           nodes,
           links,
