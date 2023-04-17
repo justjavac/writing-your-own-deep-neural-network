@@ -1,28 +1,46 @@
 import { useState } from "preact/hooks";
 import { Graph } from "@/components/Graph.tsx";
-import { type Model, Network } from "@/dnn/mod.ts";
 import { useToggle } from "@/hooks/useToggle.ts";
+import { useModel } from "../hooks/useModel.ts";
+import { Button } from "@/components/Button.tsx";
 
 export interface NotGateProps {
   title: string;
-  model: Model;
+  modelName: string;
+  layers: number[];
 }
 
-export default function NotGate(props: NotGateProps) {
-  const [model, setModel] = useState(props.model);
+export default function NotGate({ title, layers, modelName }: NotGateProps) {
+  const {
+    model,
+    network,
+    loadModel,
+    resetModel,
+    setModel,
+    loading,
+    error,
+    loaded,
+  } = useModel(modelName, layers);
+
   const [input1, toggleInput1] = useToggle(0);
   const [output1, setOutput1] = useState("");
-
-  const network = Network.fromModel(model);
 
   return (
     <>
       <div class="flex flex-grow flex-col h-full border-r">
-        <Graph model={model} />
+        <Graph model={model} title={title} loading={loading} />
       </div>
       <div class="flex flex-col gap-y-1 w-4/12 h-full p-4">
-        <h2 class="mb-4 text-xl font-semibold">{props.title}</h2>
-        <div class="flex gap-x-4 items-center">
+        <h2 class="mb-1 text-xl font-semibold">第一步：初始化网络</h2>
+        <p class="my-1 text-sm font-normal">
+          初始化一个神经网络模型，包含 1 个输入层，2 个隐藏层，1 个输出层。隐藏层的个数是 5。
+        </p>
+        <h2 class="mt-4 text-xl font-semibold">第二步：加载模型</h2>
+        <div class="flex gap-x-4 items-center my-1">
+          <Button onClick={loadModel}>加载</Button>
+        </div>
+        <h2 class="mt-4 text-xl font-semibold">第三步：设置输入值</h2>
+        <div class="flex gap-x-4 items-center my-1">
           <span class="text-sm font-normal">输入</span>
           <label
             class="relative inline-flex items-center cursor-pointer"
@@ -46,20 +64,21 @@ export default function NotGate(props: NotGateProps) {
           </label>
         </div>
 
-        <div class="flex gap-x-4 items-center my-4">
-          <button
-            type="button"
-            class="text-blue-700 hover:text-white border border-blue-700 hover:bg-blue-800 focus:outline-none rounded px-4 py-1 text-center"
-            onClick={() =>
-              setOutput1(
-                Math.round(network.predict([input1])[0]) ? "真" : "假",
-              )}
+        <h2 class="mt-4 text-xl font-semibold">第四步：计算</h2>
+        <div class="flex gap-x-4 items-center my-1">
+          <Button
+            disabled={!loaded}
+            onClick={() => {
+              const result = network.predict([input1]);
+              setModel(network.exportModel());
+              setOutput1(Math.round(result[0]) ? "真" : "假");
+            }}
           >
             计算
-          </button>
+          </Button>
         </div>
 
-        <div class="flex gap-x-4 items-center">
+        <div class="mt-4 flex gap-x-4 items-center">
           <span class="text-sm font-normal">结果</span>
           <div class="border rounded border-gray-300 flex-grow h-8 p-1 text-gray-500">
             {output1}

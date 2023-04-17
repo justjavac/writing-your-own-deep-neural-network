@@ -6,5 +6,6 @@ import type { Model } from "@/dnn/model.ts";
 import modle from "@/models/basic.json" assert { type: "json" };
 
 export default function Home() {
-  return <NotGate model={modle as Model} title="一个最小化的神经网络" />;
+  return null;
+  // return <NotGate model={modle as Model} title="一个最小化的神经网络" />;
 }

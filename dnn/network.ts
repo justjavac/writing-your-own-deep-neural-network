@@ -95,9 +95,11 @@ export class Network {
     const network = new Network(model.map((x) => x.length));
     network.layers.forEach((layer, i) => {
       layer.neurons.forEach((neuron, j) => {
-        neuron.bias = model[i][j][0];
+        const modelNeuron = model[i][j];
+        neuron.bias = modelNeuron[0];
+        neuron.output = modelNeuron[1];
         neuron.inputConnections.forEach((conn, k) => {
-          conn.weight = model[i][j][1][k];
+          conn.weight = modelNeuron[2][k];
         });
       });
     });
@@ -236,6 +238,7 @@ export class Network {
       return layer.neurons.map((neuron) => {
         return [
           neuron.bias,
+          neuron.output,
           neuron.inputConnections.map((conn) => {
             return conn.weight;
           }),
