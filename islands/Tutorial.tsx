@@ -30,7 +30,7 @@ export default function Tutorial() {
             计算神经元的输出过程为：所有输入神经元的加权和 + 当前神经元的偏置。例如 <code>b2</code> 神经元的输出为：
           </p>
           <p class="my-1">
-            <code>y = input1 * w1 + input2 * w2 + b2</code>
+            <code>x1 = input1 * w1 + input2 * w2 + b2</code>
           </p>
           <p class="my-1">
             由于所有的输入和输出都是 0-1 的数值，因此我们还需要一个函数把输出值映射到 0-1 的范围。我们选择一个通用的
@@ -43,8 +43,8 @@ export default function Tutorial() {
         </div>
         <div class="flex flex-grow flex-col h-full border-b">
           <Graph
-            model={[[[0, "输入1", []], [0, "输入2", []]], [[-2, "b1", ["w1", "w2"]], [1, "b2", ["w3", "w4"]]], [[
-              1,
+            model={[[[0, "输入1", []], [0, "输入2", []]], [["b1", "x1", ["w1", "w2"]], ["b2", "x2", ["w3", "w4"]]], [[
+              "b3",
               "输出1",
               ["w5", "w6"],
             ]]] as unknown as Model}
