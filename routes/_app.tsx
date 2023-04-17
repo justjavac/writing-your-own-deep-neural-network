@@ -8,6 +8,7 @@ export default function App({ Component }: AppProps) {
       <Head>
         <title>Deep Neural Network</title>
         <link rel="icon" type="image/x-icon" href="https://fresh.deno.dev/favicon.ico"></link>
+        <link rel="stylesheet" href="https://x.deno.js.cn/assets/css/style.css?v=cf667d" />
       </Head>
       <body class="flex flex-col h-screen">
         <div class="flex p-4 gap-x-4 border">
