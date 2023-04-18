@@ -1,6 +1,9 @@
+import { VNode } from "preact";
+import { JSX } from "preact/jsx-runtime";
+
 export interface ButtonProps {
   disabled?: boolean;
-  children?: string;
+  children?: string | JSX.Element | (string | JSX.Element)[];
   onClick: () => void;
 }
 

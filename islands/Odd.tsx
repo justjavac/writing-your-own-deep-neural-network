@@ -41,6 +41,30 @@ export default function Odd({ title, layers, modelName }: OddProps) {
             value={input1}
             onInput={(e) => setInput1(parseInt((e.target as HTMLInputElement).value))}
           />
+          <Button
+            onClick={() => {
+              setInput1(Math.round(Math.random() * 1023));
+            }}
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="24"
+              height="24"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              class="h-4 w-4 inline mr-1"
+            >
+              <path d="M3 2v6h6"></path>
+              <path d="M21 12A9 9 0 0 0 6 5.3L3 8"></path>
+              <path d="M21 22v-6h-6"></path>
+              <path d="M3 12a9 9 0 0 0 15 6.7l3-2.7"></path>
+            </svg>
+            随机数
+          </Button>
         </div>
 
         <h2 class="mt-4 text-xl font-semibold">第四步：计算</h2>
