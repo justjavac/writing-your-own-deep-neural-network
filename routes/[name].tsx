@@ -2,6 +2,7 @@ import { PageProps } from "$fresh/server.ts";
 import AndGate from "@/islands/AndGate.tsx";
 import NotGate from "@/islands/NotGate.tsx";
 import Add from "@/islands/Add.tsx";
+import Odd from "../islands/Odd.tsx";
 
 export default function Home({ params }: PageProps) {
   if (params.name === "and_gate") {
@@ -34,6 +35,14 @@ export default function Home({ params }: PageProps) {
         layers={[10, 5, 5, 10]}
         modelName="add"
         title="十以内加法"
+      />
+    );
+  } else if (params.name === "odd") {
+    return (
+      <Odd
+        layers={[10, 5, 1]}
+        modelName="odd"
+        title="奇偶判断"
       />
     );
   }

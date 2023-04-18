@@ -21,6 +21,7 @@ export default function App({ Component }: AppProps) {
           <Menu title="或门" href="/or_gate" />
           <Menu title="非门" href="/not_gate" />
           <Menu title="十以内加法" href="/add" />
+          <Menu title="奇偶判断" href="/odd" />
         </div>
         <div class="flex flex-grow">
           <Component />
