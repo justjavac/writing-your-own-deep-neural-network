@@ -20,7 +20,8 @@ export default function Tutorial() {
   return (
     <div class="flex flex-col px-4 pb-10 markdown-body">
       <div class="flex">
-        <div class="flex flex-col gap-y-1 w-8/12 h-full border-r py-4">
+        <div class="flex flex-col gap-y-1 w-8/12 h-full border-r pb-4">
+          <h1 style={{ border: "none" }}>一步步开发自己的深度神经网络</h1>
           <p>
             在生物学中，神经元使用一种称为突触的特殊连接与其他细胞进行通信，从而实现大脑的思考。而人工神经网络则使用代码模拟了这种结构。
           </p>
