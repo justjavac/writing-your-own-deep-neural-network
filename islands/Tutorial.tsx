@@ -8,7 +8,14 @@ import { Network } from "../dnn/network.ts";
 
 export default function Tutorial() {
   const [output1, setOutput1] = useState("");
+  const [output2, setOutput2] = useState("");
   const { model, network, setModel } = useModel("", [2, 3, 1]);
+  const { model: modelAnd, network: networkAnd, loadModel: loadAndModel, loaded: loadedAnd } = useModel("and_gate", [
+    2,
+    5,
+    5,
+    1,
+  ]);
 
   return (
     <div class="flex flex-col px-4 pb-10 markdown-body">
@@ -169,8 +176,7 @@ export default function Tutorial() {
           <p>
             接下来我们准备一组训练数据，对其训练 1000 次。
           </p>
-          <p class="highlight">
-            <pre class="highlight"><code>{`const trainingData = [
+          <pre class="highlight"><code>{`const trainingData = [
   { input: [0, 0], output: [1] },
   { input: [1, 1], output: [1] },
   { input: [0, 1], output: [0] },
@@ -183,7 +189,6 @@ for (let i = 0; i < 1000; i++) {
   network.train(input, output);
 }`}
 </code></pre>
-          </p>
           <p>
             每点一次{" "}
             <Button
@@ -222,7 +227,75 @@ for (let i = 0; i < 1000; i++) {
         </div>
         <div class="flex flex-grow flex-col h-full border-b">
           <Graph model={model} />
-          <pre class="w-full h-40">{output1}</pre>
+          <pre class="w-full h-36 mb-0">{output1}</pre>
+        </div>
+      </div>
+      <div class="flex">
+        <div class="flex flex-col gap-y-1 w-8/12 h-full border-r py-4">
+          <h3>预训练模型</h3>
+          <p>
+            网络的训练可能需要几小时、几天、甚至几个月的时间。如果我们能够提前训练好一个网络，那么我们就可以直接使用这个网络，而不需要再训练。
+          </p>
+          <p>
+            而我们训练的过程，就是调整网络中的参数，使得网络的输出与我们期望的输出尽可能接近。参数包含了网络的结构，因此我们可以将网络的参数保存下来，以便下次使用。
+            在我们的网络中，参数就是每个神经元的<strong>偏置</strong>和连接的<strong>权重</strong>。
+          </p>
+          <p>
+            当网络训练好之后，我们可以使用 <code>network.exportModel()</code> 导出<a
+              href="https://github.com/justjavac/writing-your-own-deep-neural-network/blob/main/dnn/model.ts"
+              target="_blank"
+              rel="nofollow noreferrer noopener"
+            >
+              模型
+            </a>。为了方便我们使用 JSON
+            格式存储模型，现实中我们应该使用二进制格式来存储，由于网络参数都是数值，因此二进制相比文本文件可以达到相当高的压缩率。
+          </p>
+          <p>
+            随后我们就可以使用 <code>const network = Network.fromModel(model)</code> 从模型中直接创建神经网络。
+          </p>
+          <p>
+            一个<a
+              href="https://github.com/justjavac/writing-your-own-deep-neural-network/blob/main/examples/model_and_gate.ts"
+              target="_blank"
+              rel="nofollow noreferrer noopener"
+            >
+              加载<strong>与门</strong>的预训练模型
+            </a>的例子：
+          </p>
+          <pre class="highlight"><code>{`import { Network } from "@/dnn/network.ts";
+
+const model = await Deno.readTextFile("./models/and_gate.json");
+const network = Network.fromModel(JSON.parse(model));
+
+console.log("0 AND 0 = ", network.predict([0, 0]));
+console.log("0 AND 1 = ", network.predict([0, 1]));
+console.log("1 AND 0 = ", network.predict([1, 0]));
+console.log("1 AND 1 = ", network.predict([1, 1]));`}
+</code></pre>
+          <p>
+            点击 <Button onClick={loadAndModel}>加载</Button> 模型然后{" "}
+            <Button
+              disabled={!loadedAnd}
+              onClick={() => {
+                const result = [
+                  "0,0 --> " + networkAnd.predict([0, 0])[0],
+                  "0,1 --> " + networkAnd.predict([0, 1])[0],
+                  "1,0 --> " + networkAnd.predict([1, 0])[0],
+                  "1,1 --> " + networkAnd.predict([1, 1])[0],
+                ]
+                  .join("\n");
+
+                setOutput2(result);
+              }}
+            >
+              使用
+            </Button>{" "}
+            此模型。
+          </p>
+        </div>
+        <div class="flex flex-grow flex-col h-full border-b">
+          <Graph model={modelAnd} />
+          <pre class="w-full h-36 mb-0">{output2}</pre>
         </div>
       </div>
     </div>
