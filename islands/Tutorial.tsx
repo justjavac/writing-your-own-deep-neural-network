@@ -18,23 +18,51 @@ export default function Tutorial() {
             在生物学中，神经元使用一种称为突触的特殊连接与其他细胞进行通信，从而实现大脑的思考。而人工神经网络则使用代码模拟了这种结构。
           </p>
           <p>
-            神经网络由 1 个输入层、n 个隐藏层、1 个输出层构成。右侧展示了一个神经网络。
+            神经网络由多个<a
+              href="https://github.com/justjavac/writing-your-own-deep-neural-network/blob/main/dnn/layer.ts"
+              target="_blank"
+              rel="nofollow noreferrer noopener"
+            >
+              层
+            </a>构成，分别是 1 个输入层、n 个隐藏层（n &gt;= 0）、1 个输出层构成。每个层包含 n 个<a
+              href="https://github.com/justjavac/writing-your-own-deep-neural-network/blob/main/dnn/neuron.ts"
+              target="_blank"
+              rel="nofollow noreferrer noopener"
+            >
+              神经元
+            </a>（n &gt;= 1）。右侧展示了一个神经网络:
           </p>
           <p>
-            每个神经元(Neuron)有一个偏置 <code>bias</code>。例如右图中的 <code>b1</code>、<code>b2</code>{" "}
-            等等。每个神经元之间的连接(Connection)都有一个权重 <code>weight</code>。例如右图中的{" "}
-            <code>w1</code>、<code>w2</code>等等。
+            <ul class="list-disc">
+              <li>1 个输入层: 包含 2 个神经元。</li>
+              <li>1 个隐藏层: 包含 2 个神经元。</li>
+              <li>1 个输出层: 包含 1 个神经元。</li>
+            </ul>
           </p>
           <p>
-            计算神经元的输出过程为：所有输入神经元的加权和 + 当前神经元的偏置。例如 <code>b2</code> 神经元的输出为：
+            每个神经元有一个偏置 <code>bias</code>。例如右图中的 <code>b1</code>、<code>b2</code>{" "}
+            等等。每个神经元之间的<a
+              href="https://github.com/justjavac/writing-your-own-deep-neural-network/blob/main/dnn/connection.ts"
+              target="_blank"
+              rel="nofollow noreferrer noopener"
+            >
+              连接
+            </a>都有一个权重 <code>weight</code>。例如右图中的 <code>w1</code>、<code>w2</code>等等。
+          </p>
+          <p>
+            计算神经元的输出过程为：所有输入神经元的加权和 + 当前神经元的偏置。例如 <code>x1</code> 神经元的输出为：
           </p>
           <p>
             <code>x1 = input1 * w1 + input2 * w2 + b2</code>
           </p>
           <p>
-            由于所有的输入和输出都是 0-1 的数值，因此我们还需要一个函数把输出值映射到 0-1 的范围。我们选择一个通用的
-            {" "}
-            <code>sigmoid</code> 函数：
+            由于所有的输入和输出都是 0-1 的数值，因此我们还需要一个函数把输出值映射到 0-1 的范围，这个函数称为<a
+              href="https://github.com/justjavac/writing-your-own-deep-neural-network/blob/main/dnn/sigmoid.ts"
+              target="_blank"
+              rel="nofollow noreferrer noopener"
+            >
+              激活函数
+            </a>。我们选择一个通用的 <code>sigmoid</code> 函数：
           </p>
           <p>
             <code>f(n) = 1 / (1 + e^(-n))</code>
@@ -56,13 +84,19 @@ export default function Tutorial() {
             手动构建一个神经网络
           </h3>
           <p>
-            我们了解了神经网络的原理后，尝试手动构建一个最简单的神经网络：取反。
+            我们了解了神经网络的原理后，尝试手动构建一个最简单的神经网络：<a
+              href="https://github.com/justjavac/writing-your-own-deep-neural-network/blob/main/examples/basic.ts"
+              target="_blank"
+              rel="nofollow noreferrer noopener"
+            >
+              取反
+            </a>。
           </p>
           <p>
-            只设置 1 个输入，1 个输出，没有隐藏层。当输入为 1 的时候，输出 0；当输入 0 的时候，输出 1。
+            输入层有 1 个神经元，输出层有 1 个神经元，没有隐藏层。当输入为 1 的时候，输出 0；当输入 0 的时候，输出 1。
           </p>
           <p>
-            现在这个网络是这样的，如右图所示：
+            现在这个网络是这样的，如右图所示。
           </p>
         </div>
         <div class="flex flex-grow flex-col h-full border-b">
@@ -91,7 +125,7 @@ export default function Tutorial() {
             解方程：w = -1，b = 1。
           </p>
           <p>
-            于是我们得到了最终的神经网络，如右图所示：
+            于是我们得到了最终的神经网络，如右图所示。利用我们手动计算出的偏置和权重，我们可以得到输入 0 和 1 的输出。
           </p>
         </div>
         <div class="flex flex-grow flex-col h-full border-b">
@@ -109,8 +143,13 @@ export default function Tutorial() {
             现实中的神经网络通常包括几万甚至上亿个参数，如果手动计算这些参数肯定是不可能的。因此我们需要让网络自主学习。
           </p>
           <p>
-            现在我们构建一个网络来执行这个任务：判断是否相等。这个网络包含 2 个输入，1 个输出，1 个隐藏层，其中隐藏层有
-            3 个神经元。
+            现在我们构建一个网络来执行这个任务：<a
+              href="https://github.com/justjavac/writing-your-own-deep-neural-network/blob/main/examples/equals.ts"
+              target="_blank"
+              rel="nofollow noreferrer noopener"
+            >
+              判断是否相等
+            </a>。这个网络的结构：输入层 2 个神经元，输出层 1 个神经元，隐藏层 3 个神经元。
           </p>
           <p>
             我们执行 <code>const network = new Network([2, 3, 1])</code> 初始化这个网络。
@@ -125,7 +164,7 @@ export default function Tutorial() {
             >
               初始化
             </Button>{" "}
-            网络的神经元会会设置为随机值。
+            网络的神经元会设置为随机值。
           </p>
           <p>
             接下来我们准备一组训练数据，对其训练 1000 次。
