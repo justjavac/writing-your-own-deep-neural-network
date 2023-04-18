@@ -11,7 +11,7 @@ export default function App({ Component }: AppProps) {
         <link rel="stylesheet" href="https://x.deno.js.cn/assets/css/style.css?v=cf667d" />
       </Head>
       <body class="flex flex-col h-screen">
-        <div class="flex p-4 gap-x-4 border">
+        <div class="flex px-4 py-3 gap-x-4 border-b">
           <div class="align-middle mt-1 mr-8 flex items-center">
             <a class="text-xl font-semibold" href="/">
               Playground
