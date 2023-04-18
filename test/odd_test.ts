@@ -1,6 +1,7 @@
 import { assertEquals } from "$std/testing/asserts.ts";
 import { Network } from "@/dnn/network.ts";
 
+// 生成 0 到 1023 的二进制数
 const allData = Array(2 ** 10)
   .fill(0)
   .map((_, i) => ({
@@ -9,10 +10,10 @@ const allData = Array(2 ** 10)
     output: [i % 2],
   }));
 
-// 用 90% 的数据训练
+// 只用 10% 的数据进行训练
 const trainingData = allData
   .sort(() => Math.random() - 0.5)
-  .slice(0, Math.floor(allData.length * 0.9));
+  .slice(0, Math.floor(allData.length * 0.1));
 
 const network = new Network([10, 5, 1]);
 

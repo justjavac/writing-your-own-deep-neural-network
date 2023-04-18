@@ -4,11 +4,12 @@ import { useToggle } from "@/hooks/useToggle.ts";
 import { Button } from "@/components/Button.tsx";
 import type { Model } from "@/dnn/model.ts";
 import { useModel } from "@/hooks/useModel.ts";
-import { Network } from "../dnn/network.ts";
+import { Network } from "@/dnn/network.ts";
 
 export default function Tutorial() {
   const [output1, setOutput1] = useState("");
-  const [output2, setOutput2] = useState("");
+  const [outputAnd, setOutputAnd] = useState("");
+  const [outputOdd, setOutputOdd] = useState("");
   const { model, network, setModel } = useModel("", [2, 3, 1]);
   const { model: modelAnd, network: networkAnd, loadModel: loadAndModel, loaded: loadedAnd } = useModel("and_gate", [
     2,
@@ -16,6 +17,7 @@ export default function Tutorial() {
     5,
     1,
   ]);
+  const { model: modelOdd, network: networkOdd, setModel: setOddModel } = useModel("", [10, 5, 1]);
 
   return (
     <div class="flex flex-col px-4 pb-10 markdown-body">
@@ -177,7 +179,7 @@ export default function Tutorial() {
           <p>
             接下来我们准备一组训练数据，对其训练 1000 次。
           </p>
-          <pre class="highlight"><code>{`const trainingData = [
+          <pre><code>{`const trainingData = [
   { input: [0, 0], output: [1] },
   { input: [1, 1], output: [1] },
   { input: [0, 1], output: [0] },
@@ -263,7 +265,7 @@ for (let i = 0; i < 1000; i++) {
               加载<strong>与门</strong>的预训练模型
             </a>的例子：
           </p>
-          <pre class="highlight"><code>{`import { Network } from "@/dnn/network.ts";
+          <pre><code>{`import { Network } from "@/dnn/network.ts";
 
 const model = await Deno.readTextFile("./models/and_gate.json");
 const network = Network.fromModel(JSON.parse(model));
@@ -286,7 +288,7 @@ console.log("1 AND 1 = ", network.predict([1, 1]));`}
                 ]
                   .join("\n");
 
-                setOutput2(result);
+                setOutputAnd(result);
               }}
             >
               使用
@@ -296,7 +298,85 @@ console.log("1 AND 1 = ", network.predict([1, 1]));`}
         </div>
         <div class="flex flex-grow flex-col h-full border-b">
           <Graph model={modelAnd} />
-          <pre class="w-full h-36 mb-0">{output2}</pre>
+          <pre class="w-full h-36 mb-0">{outputAnd}</pre>
+        </div>
+      </div>
+      <div class="flex">
+        <div class="flex flex-col gap-y-1 w-8/12 h-full border-r py-4">
+          <h3>预测</h3>
+          <p>
+            在前面的例子中一直存在一个问题。
+          </p>
+          <p>
+            我们训练的网络只有简单的几个输入和输出，而且我们使用了所有输入和输出对网络进行训练。
+          </p>
+          <p>
+            下面我们来看一个稍微复杂一点的例子，我们使用一个网络来预测一个 <code>0</code> - <code>1023</code>{" "}
+            的数字是不是偶数。但是这次，我们只使用 <code>10%</code> 的数字来训练网络。
+          </p>
+          <p>
+            首先，我们需要生成 <code>0</code> - <code>1023</code>{" "}
+            的数字，将其转换为二进制数，最后将其转换为数组。然后我们将这些数据随机排序，然后取前 <code>10%</code>{"  "}
+            的数据作为训练数据。训练完成之后，我们使用剩下的数据来测试网络的准确率。
+          </p>
+          <pre><code>{`// 生成 0 到 1023 的二进制数
+const allData = Array(2 ** 10)
+  .fill(0)
+  .map((_, i) => ({
+    i: i,
+    input: i.toString(2).padStart(10, "0").split("").map(Number),
+    output: [i % 2],
+  }))
+  .sort(() => Math.random() - 0.5);
+
+// 只用 10% 的数据进行训练
+const trainingData = allData
+  .slice(0, Math.floor(allData.length * 0.1));`}
+</code></pre>
+          <p>
+            点击{" "}
+            <Button
+              onClick={() => {
+                const allData = Array(2 ** 10)
+                  .fill(0)
+                  .map((_, i) => ({
+                    i: i,
+                    input: i.toString(2).padStart(10, "0").split("").map(Number),
+                    output: [i % 2],
+                  }))
+                  .sort(() => Math.random() - 0.5);
+
+                const trainingData = allData
+                  .slice(0, Math.floor(allData.length * 0.1));
+
+                for (let i = 0; i < 100_000; i++) {
+                  const index = Math.floor(Math.random() * trainingData.length);
+                  const { input, output } = trainingData[index];
+                  networkOdd.train(input, output);
+                }
+
+                const testData = allData
+                  .slice(Math.floor(allData.length * 0.1))
+                  .sort(() => Math.random() - 0.5)
+                  .slice(0, 5);
+
+                const result = testData
+                  .map((x) => [x.i, networkOdd.predict(x.input)[0]])
+                  .map((x) => `${x[0].toString().padStart(4, " ")} --> ${x[1] < 0.5 ? "偶数" : "奇数"}`)
+                  .join("\n");
+
+                setOutputOdd(result);
+                setOddModel(networkOdd.exportModel());
+              }}
+            >
+              训练
+            </Button>{" "}
+            模型并输出测试结果。
+          </p>
+        </div>
+        <div class="flex flex-grow flex-col h-full border-b">
+          <Graph model={modelOdd} />
+          <pre class="w-full h-36 mb-0">{outputOdd}</pre>
         </div>
       </div>
     </div>
