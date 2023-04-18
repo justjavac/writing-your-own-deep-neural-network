@@ -13,7 +13,7 @@ export default function App({ Component }: AppProps) {
       <body class="flex flex-col h-screen">
         <div class="flex px-4 py-3 gap-x-4 border-b">
           <div class="align-middle mt-1 mr-8 flex items-center">
-            <a class="text-xl font-semibold" href="/">
+            <a class="text-xl font-semibold no-underline" href="/">
               Playground
             </a>
           </div>
@@ -27,7 +27,7 @@ export default function App({ Component }: AppProps) {
               href="https://github.com/justjavac/writing-your-own-deep-neural-network"
               target="_blank"
               rel="noopener noreferrer nofollow"
-              class="inline-flex items-center gap-1 text-gray-500 focus:outline-none rounded-lg text-sm p-2.5"
+              class="inline-flex text-base font-medium items-center gap-1 text-gray-500 focus:outline-none rounded-lg text-sm p-2.5 no-underline"
             >
               <svg
                 class="w-4 h-4"
@@ -50,7 +50,7 @@ export default function App({ Component }: AppProps) {
                   </clipPath>
                 </defs>
               </svg>
-              <span>源码</span>
+              源码
             </a>
           </div>
         </div>
