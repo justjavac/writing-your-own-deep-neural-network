@@ -63,7 +63,7 @@ export default function Tutorial() {
             计算神经元的输出过程为：所有输入神经元的加权和 + 当前神经元的偏置。例如 <code>x1</code> 神经元的输出为：
           </p>
           <p>
-            <code>x1 = input1 * w1 + input2 * w2 + b2</code>
+            <code>x1 = input1 * w1 + input2 * w2 + b1</code>
           </p>
           <p>
             由于所有的输入和输出都是 0-1 的数值，因此我们还需要一个函数把输出值映射到 0-1 的范围，这个函数称为<a
