@@ -84,7 +84,7 @@ export class Neuron {
   generateRandomBias() {
     const min = -1;
     const max = 1;
-    this.bias = Math.floor(Math.random()) * (max - min) + min;
+    this.bias = Math.random() * (max - min) + min;
   }
 
   addInputConnection(connection: Connection) {
