@@ -3,6 +3,7 @@
     "@/": "./",
     "$std/": "https://deno.land/std@0.182.0/",
     "$fresh/": "https://deno.land/x/fresh@1.1.5/",
+    "dedent": "https://esm.sh/dedent@0.7.0",
     "echarts": "https://cdnjs.cloudflare.com/ajax/libs/echarts/5.4.2/echarts.esm.js",
     "mnist": "https://esm.sh/mnist@1.1.0",
     "preact": "https://esm.sh/preact@10.13.1",

@@ -1,4 +1,5 @@
 import { useState } from "preact/hooks";
+import dedent from "dedent";
 import { Graph } from "@/components/Graph.tsx";
 import { useToggle } from "@/hooks/useToggle.ts";
 import { Button } from "@/components/Button.tsx";
@@ -179,19 +180,20 @@ export default function Tutorial() {
           <p>
             接下来我们准备一组训练数据，对其训练 1000 次。
           </p>
-          <pre><code>{`const trainingData = [
-  { input: [0, 0], output: [1] },
-  { input: [1, 1], output: [1] },
-  { input: [0, 1], output: [0] },
-  { input: [1, 0], output: [0] },
-];
+          <pre><code>{dedent`
+            const trainingData = [
+              { input: [0, 0], output: [1] },
+              { input: [1, 1], output: [1] },
+              { input: [0, 1], output: [0] },
+              { input: [1, 0], output: [0] },
+            ];
 
-for (let i = 0; i < 1000; i++) {
-  const index = Math.floor(Math.random() * trainingData.length);
-  const { input, output } = trainingData[index];
-  network.train(input, output);
-}`}
-</code></pre>
+            for (let i = 0; i < 1000; i++) {
+              const index = Math.floor(Math.random() * trainingData.length);
+              const { input, output } = trainingData[index];
+              network.train(input, output);
+            }`}
+          </code></pre>
           <p>
             每点一次{" "}
             <Button
@@ -265,16 +267,17 @@ for (let i = 0; i < 1000; i++) {
               加载<strong>与门</strong>的预训练模型
             </a>的例子：
           </p>
-          <pre><code>{`import { Network } from "@/dnn/network.ts";
+          <pre><code>{dedent`
+            import { Network } from "@/dnn/network.ts";
 
-const model = await Deno.readTextFile("./models/and_gate.json");
-const network = Network.fromModel(JSON.parse(model));
+            const model = await Deno.readTextFile("./models/and_gate.json");
+            const network = Network.fromModel(JSON.parse(model));
 
-console.log("0 AND 0 = ", network.predict([0, 0]));
-console.log("0 AND 1 = ", network.predict([0, 1]));
-console.log("1 AND 0 = ", network.predict([1, 0]));
-console.log("1 AND 1 = ", network.predict([1, 1]));`}
-</code></pre>
+            console.log("0 AND 0 = ", network.predict([0, 0]));
+            console.log("0 AND 1 = ", network.predict([0, 1]));
+            console.log("1 AND 0 = ", network.predict([1, 0]));
+            console.log("1 AND 1 = ", network.predict([1, 1]));`}
+          </code></pre>
           <p>
             点击 <Button onClick={loadAndModel}>加载</Button> 模型然后{" "}
             <Button
@@ -319,20 +322,21 @@ console.log("1 AND 1 = ", network.predict([1, 1]));`}
             的数字，将其转换为二进制数，最后将其转换为数组。然后我们将这些数据随机排序，然后取前 <code>10%</code>{"  "}
             的数据作为训练数据。训练完成之后，我们使用剩下的数据来测试网络的准确率。
           </p>
-          <pre><code>{`// 生成 0 到 1023 的二进制数
-const allData = Array(2 ** 10)
-  .fill(0)
-  .map((_, i) => ({
-    i: i,
-    input: i.toString(2).padStart(10, "0").split("").map(Number),
-    output: [i % 2],
-  }))
-  .sort(() => Math.random() - 0.5);
+          <pre><code>{dedent`
+            // 生成 0 到 1023 的二进制数
+            const allData = Array(2 ** 10)
+              .fill(0)
+              .map((_, i) => ({
+                i: i,
+                input: i.toString(2).padStart(10, "0").split("").map(Number),
+                output: [i % 2],
+              }))
+              .sort(() => Math.random() - 0.5);
 
-// 只用 10% 的数据进行训练
-const trainingData = allData
-  .slice(0, Math.floor(allData.length * 0.1));`}
-</code></pre>
+            // 只用 10% 的数据进行训练
+            const trainingData = allData
+              .slice(0, Math.floor(allData.length * 0.1));`}
+          </code></pre>
           <p>
             点击{" "}
             <Button
